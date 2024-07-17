@@ -1,19 +1,21 @@
 import streamlit as st
-import requests
+import asyncio
+from youtubesearchpython import VideosSearch
 from bs4 import BeautifulSoup
-from youtubesearchpython import Search
-from g4f.client import Client
+from urllib.request import urlopen, Request
+import random
+import time
+from googlesearch import search
+from g4f.client import AsyncClient
 import g4f
 from g4f.Provider.MetaAI import MetaAI
-from urllib.request import urlopen
-from googlesearch import search
 
 
-# Function to generate AI response
-def generate_response(prompt):
-    client = Client()
+# Asynchronous function to generate AI response
+async def generate_response(prompt):
+    client = AsyncClient()
     try:
-        response = client.chat.completions.create(
+        response = await client.chat.completions.create(
             model=g4f.models.llama3_70b_instruct,
             messages=[{'role': 'user', 'content': prompt}],
             provider=MetaAI
@@ -23,82 +25,98 @@ def generate_response(prompt):
         st.error(f"Error generating response: {str(e)}")
         return None
 
-# Function to validate URLs
-def validate_url(url):
-    try:
-        response = requests.head(url, allow_redirects=True, timeout=5)
-        return response.status_code == 200
-    except requests.RequestException:
-        return False
 
 # Function to fetch articles
 def fetch_articles(query):
     articles = []
     try:
-        for url in search(query, stop=5):  # Fetch top 5 articles
-            html = urlopen(url)
+        for i, url in enumerate(search(query, stop=5), start=1):
+            time.sleep(random.uniform(1, 3))
+            req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            html = urlopen(req)
             soup = BeautifulSoup(html, 'html.parser')
             title = soup.title.text if soup.title else "Title not found"
-            description = soup.find('meta', attrs={'name': 'description'})
-            description_content = description["content"] if description else "Description not found"
             domain = url.split("//")[-1].split("/")[0]
-            articles.append({'url': url, 'title': title, 'description': description_content, 'domain': domain})
+            articles.append({
+                'url': url,
+                'title': title,
+                'source': domain,
+                'number': i
+            })
     except Exception as e:
-        st.error(f"Error fetching articles: {str(e)}")
+        print(f"Error fetching articles: {str(e)}")
     return articles
+
 
 # Function to fetch YouTube videos
 def fetch_youtube_videos(query):
-    allSearch = Search(query, limit=5)
-    videos = []
-    for video in allSearch.result()['result']:
-        videos.append({'title': video['title'], 'link': video['link']})
-    return videos
+    videos_search = VideosSearch(query, limit=4)
+    return videos_search.result()['result']
 
-# Function to generate prompts
-def generate_prompt(query):
-    prompt = f"""
-        
-        Based on the user's query "{query}", provide a concise but comprehensive overview of the topic. Your response should:
-        1. Offer a brief introduction to the subject.
-        2. Highlight key concepts or ideas related to the query.
-        3. Mention any current trends or recent developments.
-        4. If applicable, touch on different perspectives or debates surrounding the topic.
 
-        Format your response as a short, well-structured paragraph.
+# Function to generate related queries
+async def generate_related_queries(query):
+    prompt = f"Generate 3 related search queries for the following query: '{query}'. Provide only the queries, separated by newlines."
+    response = await generate_response(prompt)
+    return response.strip().split('\n')
 
-        """
-    return prompt
 
 # Streamlit app
-st.title("Enhanced AI Query Assistant")
+st.set_page_config(page_title="AI Research Assistant")
 
-query = st.chat_input("Enter your query:")
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-if query:
-    with st.spinner("Searching for relevant content and generating expert analysis..."):
-        articles = fetch_articles(query)
+
+local_css("style.css")
+
+# Main layout
+st.title("AI Research Assistant")
+
+# Create two columns for the main layout
+col1, col2 = st.columns([2, 1], gap='small', vertical_alignment="top")
+query = st.chat_input("Ask me anything...", key="user_query")
+with col1:
+
+    if query:
+        st.title(query)
+        with st.spinner("Researching and analyzing..."):
+
+                response_text = asyncio.run(generate_response(query))
+                # Fetch articles
+                articles = fetch_articles(query)
+
+                # Display AI respo
+                # Display sources
+                st.markdown("### Sources")
+                st.markdown('<div class="source-container">', unsafe_allow_html=True)
+                for article in articles[:6]:
+                    st.markdown(f"""
+                                <a href="{article['url']}" target="_blank" class="source-button">
+                                    <div class="source-title">{article['title'][:50]}...</div>
+                                    <div class="source-info">
+                                        <span>{article['source']}</span>
+                                        <span>• {article['number']}</span>
+                                    </div>
+                                </a>
+                                """, unsafe_allow_html=True)
+                st.markdown('</div>', unsafe_allow_html=True)
+
+                st.markdown("### Answer")
+                st.write(response_text)
+
+
+with col2:
+    if query:
+        # Fetch and display YouTube videos
         videos = fetch_youtube_videos(query)
-        in_depth_prompt = generate_prompt(query)
-        response_text = generate_response(in_depth_prompt)
-
-    if response_text:
-        st.subheader("Answer")
-        st.markdown(response_text)
-
-        st.subheader("Sources")
-
-
-        if videos:
-            cols = st.columns(5)
-            for idx, video in enumerate(videos):
-                with cols[idx % 5]:
-                    # st.markdown(f"[{video['title']}]({video['url']})")
-                    st.video(video['link'])
-
-        st.subheader("Related Questions")
-        st.markdown("* Who is Leonard Nimoy, the actor behind Mr. Spock?")
-        st.markdown("* What is the traditional Jewish blessing behind 'live long and prosper'?")
-        st.markdown("* What is the Vulcan salute and how was it devised by Leonard Nimoy?")
-    else:
-        st.error("Unable to generate an analysis. Please try again or refine your query.")
+        st.markdown("### Video Sources")
+        for video in videos:
+            st.markdown(f"""
+            <div class="video-item">
+                <a href="{video['link']}" target="_blank">
+                    <img src="{video['thumbnails'][0]['url']}" alt="{video['title']}" class="video-thumbnail">
+                </a>
+            </div>
+            """, unsafe_allow_html=True)
