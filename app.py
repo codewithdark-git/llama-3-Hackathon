@@ -77,10 +77,10 @@ st.title("AI Research Assistant")
 # Create two columns for the main layout
 col1, col2 = st.columns([2, 1], gap='small', vertical_alignment="top")
 query = st.chat_input("Ask me anything...", key="user_query")
-with col1:
 
-    if query:
-        st.title(query)
+
+if query:
+        st.markdown(f'##### {query}')
         with st.spinner("Researching and analyzing..."):
 
                 response_text = asyncio.run(generate_response(query))
@@ -89,26 +89,30 @@ with col1:
 
                 # Display AI respo
                 # Display sources
-                st.markdown("### Sources")
-                st.markdown('<div class="source-container">', unsafe_allow_html=True)
-                for article in articles[:6]:
-                    st.markdown(f"""
-                                <a href="{article['url']}" target="_blank" class="source-button">
-                                    <div class="source-title">{article['title'][:50]}...</div>
+                with st.expander('Sources'):
+
+                    # Create two rows of columns
+                    st.markdown("### Sources")
+                    row1 = st.columns(3)
+                    row2 = st.columns(3)
+                    rows = row1 + row2
+
+                    for i, article in enumerate(articles[:6]):
+                        col = rows[i]
+                        col.markdown(f"""
+                                <a href="{article['url']}" target="_blank" class='source-button'>
+                                    <div class="source-title">{article['title'][:50]}</div>
                                     <div class="source-info">
                                         <span>{article['source']}</span>
-                                        <span>• {article['number']}</span>
                                     </div>
                                 </a>
                                 """, unsafe_allow_html=True)
-                st.markdown('</div>', unsafe_allow_html=True)
+
 
                 st.markdown("### Answer")
                 st.write(response_text)
 
 
-with col2:
-    if query:
         # Fetch and display YouTube videos
         videos = fetch_youtube_videos(query)
         st.markdown("### Video Sources")
