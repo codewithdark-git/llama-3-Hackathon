@@ -3,17 +3,17 @@ import asyncio
 from youtubesearchpython import VideosSearch
 import urllib.parse
 from googlesearch import search
-from g4f.client import AsyncClient
+from g4f.client import Client
 import g4f
 from g4f.Provider.MetaAI import MetaAI
 from app import local_css
 
 
 # Asynchronous function to generate AI response
-async def generate_response(prompt):
-    client = AsyncClient()
+def generate_response(prompt):
+    client = Client()
     try:
-        response = await client.chat.completions.create(
+        response = client.chat.completions.create(
             model=g4f.models.llama3_70b_instruct,
             messages=[{'role': 'user', 'content': prompt}],
             provider=MetaAI
