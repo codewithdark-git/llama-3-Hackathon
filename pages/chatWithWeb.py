@@ -67,7 +67,7 @@ if query:
         st.markdown(f'##### {query}')
         with st.spinner("Researching and analyzing..."):
 
-            response_text = asyncio.run(generate_response(query))
+            response_text = generate_response(query)
             # Fetch articles
             articles = fetch_articles(query)
             print(type(articles))
