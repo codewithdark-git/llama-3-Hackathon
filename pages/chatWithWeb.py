@@ -5,7 +5,6 @@ import urllib.parse
 from googlesearch import search
 from g4f.client import AsyncClient
 import g4f
-from g4f.Provider.MetaAI import MetaAI
 from app import local_css
 
 
@@ -14,9 +13,9 @@ async def generate_response(prompt):
     client = AsyncClient()
     try:
         response = await client.chat.completions.create(
-            model=g4f.models.gpt_4o,
+            model=g4f.models.gpt_35_turbo_16k_0613,
             messages=[{'role': 'user', 'content': prompt}],
-            # provider=MetaAI
+            provider=g4f.Provider.DDG
         )
         return response.choices[0].message.content
     except Exception as ConnectionError:
