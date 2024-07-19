@@ -6,6 +6,7 @@ from googlesearch import search
 from g4f.client import AsyncClient
 import g4f
 from g4f.Provider.MetaAI import MetaAI
+from app import local_css
 
 
 # Asynchronous function to generate AI response
@@ -57,19 +58,11 @@ async def generate_related_queries(query):
     return response.strip().split('\n')
 
 
-def local_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
 
 local_css("pages/style.css")
 
 st.page_link('app.py', label='Home', icon="🏠")
-st.page_link('pages/chatWithFile.py', label='Chat with File', icon="📑")
-
 query = st.chat_input("Ask me anything...", key="user_query")
-
-
 if query:
         st.markdown(f'##### {query}')
         with st.spinner("Researching and analyzing..."):
