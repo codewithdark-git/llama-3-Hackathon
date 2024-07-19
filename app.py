@@ -1,54 +1,34 @@
 import streamlit as st
 
 # Set page configuration
-st.set_page_config(page_title="AI Research Assistant", page_icon="🤖", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="LLaMA Genius || AI Research Assistant", page_icon="random", initial_sidebar_state="collapsed")
 
-# Custom CSS for styling
-st.markdown("""
-    <style>
-        .main-title {
-            font-size: 2.5em;
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-        
-        .subheader {
-            font-size: 1.5em;
-            color: #34495e;
-            text-align: center;
-            margin-bottom: 30px;
-            text-decoration: none;
-        }
-        
-        .section-title {
-            font-size: 1.5em;
-            color: #2c3e50;
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-        .about-developer {
-            padding: 20px;
-            border-radius: 5px;
-            margin-top: 30px;
-        }
-        .about-developer h3 {
-            margin-top: 0;
-        }
-    </style>
-""", unsafe_allow_html=True)
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+# Load custom CSS
+local_css("pages/style.css")
+
 
 # Main function
 def main():
     st.markdown('<div class="main-title">LLaMA Genius</div>', unsafe_allow_html=True)
     st.markdown('<div class="subheader">By <a href="https://github.com/codewithdark-git" target="_blank">Dark Coder</a></div>', unsafe_allow_html=True)
 
+    st.write('Choose Your Choice 🪧:')
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.page_link("pages/chatWithFile.py", label='Chat with File', icon="📑")
+        if st.button('Chat With File'):
+            st.switch_page("pages/chatWithFile.py")
     with col2:
-        st.page_link("pages/chatWithWeb.py", label='Chat with Web', icon="🌏")
+        if st.button('Chat With Web'):
+            st.switch_page("pages/chatWithWeb.py")
+    # col1, col2, col3 = st.columns(3)
+    # with col1:
+    #     st.page_link("pages/chatWithFile.py", label='Chat with File', icon="📑")
+    # with col2:
+    #     st.page_link("pages/chatWithWeb.py", label='Chat with Web', icon="🌏")
 
     st.markdown("""
         <div class="section-title">Features Overview</div>
@@ -98,10 +78,10 @@ def main():
             <h3>About Developer</h3>
             <p><b>Name:</b> Dark Coder</p>
             <p><b>Email:</b> codewithdark90@gmail.com</p>
-            <p><b>GitHub:</b> <a href="https://github.com/codewithdark-git" target="_blank">Dark Coder</a></p>
-            <p><b>LinkedIn:</b> <a href="https://www.linkedin.com/in/codewithdark/" target="_blank">Dark Coder</a></p>
-            <p><b>Description:</b></p>
-            <p>Experienced developer with a passion for AI and machine learning. Skilled in developing AI-driven applications and integrating various APIs.</p>
+            <p><b>GitHub:</b> <a href="https://github.com/codewithdark-git" target="_blank">github.com/codewithdark-git</a></p>
+            <p><b>LinkedIn:</b> <a href="https://www.linkedin.com/in/codewithdark/" target="_blank">linkedin.com/in/codewithdark</a></p>
+            <p><b>Description:</b>
+            Experienced developer with a passion for AI and machine learning. Skilled in developing AI-driven applications and integrating various APIs.</p>
         </div>
     """, unsafe_allow_html=True)
 
