@@ -3,22 +3,24 @@ import asyncio
 from youtubesearchpython import VideosSearch
 import urllib.parse
 from googlesearch import search
-from g4f.client import Client
+from g4f.client import AsyncClient
 import g4f
 from g4f.Provider.MetaAI import MetaAI
 from app import local_css
 
 
 # Asynchronous function to generate AI response
-def generate_response(prompt):
-    client = Client()
+async def generate_response(prompt):
+    client = AsyncClient()
     try:
-        response = client.chat.completions.create(
+        response = await client.chat.completions.create(
             model=g4f.models.llama3_70b_instruct,
             messages=[{'role': 'user', 'content': prompt}],
             provider=MetaAI
         )
         return response.choices[0].message.content
+    except Exception as ConnectionError:
+        st.error(f"Error generating response: {str(ConnectionError)}")
     except Exception as e:
         st.error(f"Error generating response: {str(e)}")
         return None
@@ -67,7 +69,7 @@ if query:
         st.markdown(f'##### {query}')
         with st.spinner("Researching and analyzing..."):
 
-            response_text = generate_response(query)
+            response_text = asyncio.run(generate_response(query))
             # Fetch articles
             articles = fetch_articles(query)
             print(type(articles))
