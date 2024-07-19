@@ -1,125 +1,109 @@
 import streamlit as st
-import asyncio
-from youtubesearchpython import VideosSearch
-import urllib.parse
-from googlesearch import search
-from g4f.client import AsyncClient
-import g4f
-from g4f.Provider.MetaAI import MetaAI
 
+# Set page configuration
+st.set_page_config(page_title="AI Research Assistant", page_icon="🤖", initial_sidebar_state="collapsed")
 
-# Asynchronous function to generate AI response
-async def generate_response(prompt):
-    client = AsyncClient()
-    try:
-        response = await client.chat.completions.create(
-            model=g4f.models.llama3_70b_instruct,
-            messages=[{'role': 'user', 'content': prompt}],
-            provider=MetaAI
-        )
-        return response.choices[0].message.content
-    except Exception as e:
-        st.error(f"Error generating response: {str(e)}")
-        return None
+# Custom CSS for styling
+st.markdown("""
+    <style>
+        .main-title {
+            font-size: 2.5em;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .subheader {
+            font-size: 1.5em;
+            color: #34495e;
+            text-align: center;
+            margin-bottom: 30px;
+            text-decoration: none;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .about-developer {
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        .about-developer h3 {
+            margin-top: 0;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
+# Main function
+def main():
+    st.markdown('<div class="main-title">LLaMA Genius</div>', unsafe_allow_html=True)
+    st.markdown('<div class="subheader">By <a href="https://github.com/codewithdark-git" target="_blank">Dark Coder</a></div>', unsafe_allow_html=True)
 
-# Function to fetch articles
-def fetch_articles(query):
-    articles = []
-    try:
-        search_results = search(query, advanced=True, num_results=5)  # Store results
-        for result in search_results:  # Iterate over results
-            parsed_url = urllib.parse.urlparse(result.url)
-            domain = parsed_url.netloc
-            articles.append({
-                'url': result.url,
-                'title': result.title,
-                'description': result.description,
-                'domain': domain
-            })  # Store all info for each article
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.page_link("pages/chatWithFile.py", label='Chat with File', icon="📑")
+    with col2:
+        st.page_link("pages/chatWithWeb.py", label='Chat with Web', icon="🌏")
 
-    except Exception as e:
-        print(f"Error fetching articles: {str(e)}")
-    return articles
+    st.markdown("""
+        <div class="section-title">Features Overview</div>
+        <p>This AI Research Assistant application provides two main functionalities:</p>
 
+        <div class="section-title">1. Chat with File</div>
+        <ul>
+            <li><b>File Upload:</b> Allows users to upload PDF, DOCX, and TXT files.</li>
+            <li><b>File Reading:</b> Reads and extracts text from the uploaded files.</li>
+            <li><b>Text Chunking:</b> Splits the text into manageable chunks for processing.</li>
+            <li><b>AI Interaction:</b> Users can either chat with the file content or generate ideas/text about the file using an AI model.</li>
+            <li><b>Navigation:</b> Links to navigate back to the home page and to the "Chat with Web" feature.</li>
+        </ul>
 
+        <div class="section-title">2. Chat with Web</div>
+        <ul>
+            <li><b>Query Input:</b> Users can input a query to get responses.</li>
+            <li><b>AI Response:</b> Generates a response to the user's query using an AI model.</li>
+            <li><b>Article Fetching:</b> Fetches articles related to the query using Google search.</li>
+            <li><b>YouTube Videos:</b> Fetches YouTube videos related to the query.</li>
+            <li><b>Sources Display:</b> Displays the fetched articles and videos.</li>
+            <li><b>Navigation:</b> Links to navigate back to the home page and to the "Chat with File" feature.</li>
+        </ul>
 
-# Function to fetch YouTube videos
-def fetch_youtube_videos(query):
-    videos_search = VideosSearch(query, limit=6)
-    return videos_search.result()['result']
+        <div class="section-title">How to Use</div>
+        <ol>
+            <li><b>Chat with File:</b>
+                <ol>
+                    <li>Go to the "Chat with File" page.</li>
+                    <li>Upload a file (PDF, DOCX, or TXT).</li>
+                    <li>Choose to either chat with the file content or generate ideas/text about the file.</li>
+                    <li>If chatting, input your query and get responses based on the file content.</li>
+                    <li>If generating ideas, get summarized ideas or text about the file content.</li>
+                </ol>
+            </li>
+            <li><b>Chat with Web:</b>
+                <ol>
+                    <li>Go to the "Chat with Web" page.</li>
+                    <li>Input your query in the chat box.</li>
+                    <li>Get AI-generated responses along with related articles and YouTube videos.</li>
+                    <li>Explore sources by expanding the 'Sources' and 'Video Sources' sections.</li>
+                </ol>
+            </li>
+        </ol>
 
+        <div class="about-developer">
+            <h3>About Developer</h3>
+            <p><b>Name:</b> Dark Coder</p>
+            <p><b>Email:</b> codewithdark90@gmail.com</p>
+            <p><b>GitHub:</b> <a href="https://github.com/codewithdark-git" target="_blank">Dark Coder</a></p>
+            <p><b>LinkedIn:</b> <a href="https://www.linkedin.com/in/codewithdark/" target="_blank">Dark Coder</a></p>
+            <p><b>Description:</b></p>
+            <p>Experienced developer with a passion for AI and machine learning. Skilled in developing AI-driven applications and integrating various APIs.</p>
+        </div>
+    """, unsafe_allow_html=True)
 
-# Function to generate related queries
-async def generate_related_queries(query):
-    prompt = f"Generate 3 related search queries for the following query: '{query}'. Provide only the queries, separated by newlines."
-    response = await generate_response(prompt)
-    return response.strip().split('\n')
-
-
-# Streamlit app
-st.set_page_config(page_title="AI Research Assistant")
-
-def local_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-
-local_css("style.css")
-
-# Main layout
-st.title("AI Research Assistant")
-query = st.chat_input("Ask me anything...", key="user_query")
-
-
-if query:
-        st.markdown(f'##### {query}')
-        with st.spinner("Researching and analyzing..."):
-
-            response_text = asyncio.run(generate_response(query))
-            # Fetch articles
-            articles = fetch_articles(query)
-            print(type(articles))
-
-            # Display sources
-            with st.expander('Sources'):
-
-                # Create two rows of columns
-                st.markdown("### Sources")
-                row1 = st.columns(3)
-                row2 = st.columns(3)
-                rows = row1 + row2
-
-                for i, article in enumerate(articles[:6]):
-                    col = rows[i]
-                    col.markdown(f"""
-                                <a href="{article['url']}" target="_blank" class='source-button'>
-                                    <div class="source-title">{(article['title'][:100] if len(article['title']) > 50 else article['description'][:100])}</div>
-                                    <div class="source-info">{article['domain'].removeprefix('www.')}</div>     
-                                </a>
-                                """, unsafe_allow_html=True)
-
-            # Fetch and display YouTube videos
-            videos = fetch_youtube_videos(query)
-            with st.expander('Video Sources'):
-                st.markdown("### Videos")
-                row1 = st.columns(3)
-                row2 = st.columns(3)
-                rows = row1 + row2
-                for i, video in enumerate(videos[:6]):
-                    col = rows[i]
-                    col.markdown(f"""
-                                <div class="video-item">
-                                            <a href="{video['link']}" target="_blank">
-                                                <img src="{video['thumbnails'][0]['url']}" alt="{video['title']}" class="video-thumbnail">
-                                                <p class="video-title">{video['title'][:50]}...</p>
-                                                <div class="video-info">{video['channel']['name']}<br>
-                                                {video['viewCount']['short']}
-                                                </div>
-                                            </a>
-                                        </div>
-                                        """, unsafe_allow_html=True)
-
-            st.markdown("### Answer")
-            st.write(response_text)
-
+if __name__ == "__main__":
+    main()
