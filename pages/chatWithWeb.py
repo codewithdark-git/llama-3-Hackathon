@@ -14,9 +14,9 @@ async def generate_response(prompt):
     client = AsyncClient()
     try:
         response = await client.chat.completions.create(
-            model=g4f.models.llama_2_70b_chat,
+            model=g4f.models.gpt_4o,
             messages=[{'role': 'user', 'content': prompt}],
-            provider=MetaAI
+            # provider=MetaAI
         )
         return response.choices[0].message.content
     except Exception as ConnectionError:
