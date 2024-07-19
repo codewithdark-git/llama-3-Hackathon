@@ -54,7 +54,7 @@ def split_text_into_chunks(text, chunk_size=3000):
 # Streamlit app
 st.set_page_config(page_title="AI Research Assistant with File Upload")
 st.page_link('app.py', label='Home', icon="🏠")
-st.page_link('pages/chatWithWeb.py', label='Chat with Web', icon="💬")
+
 
 # File upload
 uploaded_file = st.file_uploader("Upload a file (PDF, DOCX, TXT)", type=["pdf", "docx", "txt"])
@@ -62,7 +62,7 @@ uploaded_file = st.file_uploader("Upload a file (PDF, DOCX, TXT)", type=["pdf", 
 if uploaded_file:
     file_content = read_file(uploaded_file)
     st.write("File content:")
-    st.text(file_content[:1000])  # Displaying first 1000 characters for preview
+    st.code(file_content[:100])  # Displaying first 1000 characters for preview
 
     # User choice for chat or generate ideas
     choice = st.radio("Choose an option", ("Chat with this file", "Generate ideas/text about this file"))
