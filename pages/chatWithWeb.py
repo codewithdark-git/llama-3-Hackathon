@@ -14,7 +14,7 @@ async def generate_response(prompt):
     client = AsyncClient()
     try:
         response = await client.chat.completions.create(
-            model=g4f.models.llama3_70b_instruct,
+            model=g4f.models.llama_2_70b_chat,
             messages=[{'role': 'user', 'content': prompt}],
             provider=MetaAI
         )
