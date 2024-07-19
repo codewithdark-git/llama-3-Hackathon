@@ -1,0 +1,128 @@
+.source-button {
+            background-color: #262730;
+            border-radius: 5px;
+            padding: 2px 5px 2px 5px;
+            color: white;
+            margin: 5px 5px 10px 5px;
+            text-decoration: none;
+            font-size: 14px;
+            flex: 1 1 calc(33% - 20px);
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            text-align: justify;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .source-button:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            background-color: #0E1117;
+        }
+
+        .source-title {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color:white;
+            font-weight: 600
+        }
+
+        .source-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #989EA4;
+            font-size: 16px;
+        }
+
+.video-item {
+            background-color: #262730;
+            border-radius: 5px;
+            padding: 5px 5px 5px 5px;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+        }
+
+.video-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+        }
+
+/* General styles for the anchor tag */
+a {
+    text-decoration: none; /* Remove underline from all links */
+    color: inherit; /* Inherit color from parent element */
+    display: block; /* Make the anchor tag a block element for better layout control */
+    margin-bottom: 8px; /* Add more space between each video item */
+    transition: transform 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Styles for the video thumbnail image */
+.video-thumbnail {
+    width: 100%; /* Make the thumbnail responsive */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Add rounded corners */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add a subtle shadow */
+    transition: box-shadow 0.3s ease; /* Smooth transition for shadow on hover */
+}
+
+/* Styles for the video title */
+.video-title {
+    font-size: 18px; /* Larger font size for prominence */
+    font-weight: bold; /* Make the text bold */
+    margin-top: 4px; /* Add more space above the title */
+    color: #333; /* Dark grey color for better readability */
+    text-decoration: none; /* Ensure no underline */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    white-space: nowrap; /* Prevent text from wrapping */
+    transition: color 0.3s ease; /* Smooth transition for color change on hover */
+}
+
+
+/* Styles for the video info container */
+.video-info {
+    font-size: 16px; /* Larger font size for better readability */
+    color: #666; /* Light grey color for subtle appearance */
+    margin-top: 2px; /* Add more space above the info */
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space out the channel name and view count */
+    align-items: center; /* Align items vertically */
+}
+
+
+/*
+
+
+        .video-thumbnail {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .video-title {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color:white;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+
+        }
+
+        .video-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #989EA4;
+            font-size: 16px;
+        }
+
