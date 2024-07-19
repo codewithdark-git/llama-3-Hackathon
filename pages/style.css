@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
 .source-button {
             background-color: #262730;
             border-radius: 5px;
@@ -55,7 +57,7 @@
         }
 
 /* General styles for the anchor tag */
-a {
+.video-item a {
     text-decoration: none; /* Remove underline from all links */
     color: inherit; /* Inherit color from parent element */
     display: block; /* Make the anchor tag a block element for better layout control */
@@ -97,32 +99,77 @@ a {
 }
 
 
-/*
 
+    .main-title {
+        font-size: 2.5em;
+        color: #2c3e50; /* Dark blue-gray color */
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: 600; /* Slightly bolder text */
+        font-family: 'Montserrat', sans-serif; /* Stylish font family */
+        text-shadow: 4px 4px 4px rgba(0, 0, 1, 1); /* Adding text shadow */
+        transition: transform 0.3s ease; /* Smooth transition for hover effect */
+    }
 
-        .video-thumbnail {
-            width: 100%;
-            border-radius: 5px;
+    .main-title:hover {
+        cursor: pointer;
+        transform: scale(1.1);
         }
 
-        .video-title {
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color:white;
-            font-size: 16px;
-            font-weight: 600;
+        .subheader {
+            font-size: 1.5em;
+            color: #34495e;
+            text-align: center;
+            margin-bottom: 30px;
             text-decoration: none;
-
         }
 
-        .video-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #989EA4;
-            font-size: 16px;
+        .subheader a {
+            text-decoration: none;
         }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .about-developer {
+
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 1, 1);
+        max-width: 600px;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+        color: #333;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .about-developer:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 1, 1);
+        transform: translateY(5px);
+        text-decoration: none;
+    }
+
+    .about-developer h3 {
+        border-bottom: 2px solid #4CAF50;
+        padding-bottom: 10px;
+        color: #4CAF50;
+        font-size: 24px;
+    }
+    .about-developer p {
+        margin: 10px 0;
+        line-height: 1.6;
+    }
+    .about-developer p b {
+        color: #555;
+    }
+    .about-developer a {
+        color: #4CAF50;
+        text-decoration: none;
+    }
+    .about-developer a:hover {
+        text-decoration: none;
+    }
 
