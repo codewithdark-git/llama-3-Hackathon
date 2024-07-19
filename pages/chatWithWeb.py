@@ -7,13 +7,13 @@ from g4f.client import AsyncClient
 import g4f
 from app import local_css
 
-
+# implementing the llama-index library for generate responses
 # Asynchronous function to generate AI response
 async def generate_response(prompt):
     client = AsyncClient()
     try:
         response = await client.chat.completions.create(
-            model=g4f.models.gpt_35_turbo_16k_0613,
+            model=g4f.models.gpt_35_turbo,
             messages=[{'role': 'user', 'content': prompt}],
             provider=g4f.Provider.DDG
         )
