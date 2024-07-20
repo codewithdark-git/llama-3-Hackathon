@@ -28,12 +28,14 @@ if uploaded_file:
                         prompt = generate_file_response(query, chunk)
                         response_text = generate_response(prompt)
                         combined_response += response_text + "\n"
-                    query = " ".join(chunk).split('\n')
+                    st.markdown(f'##### Response from the file')
+                    query = query + file_content[:100]
+
                     with st.expander('Sources'):
                         articles_show(query)
                     with st.expander('Video Sources'):
                         video_show(query)
-                    st.markdown(f'##### Response')
+
                     st.write(combined_response)
     elif choice == "Generate ideas/text about this file":
             with st.spinner("Generating ideas..."):
@@ -42,12 +44,12 @@ if uploaded_file:
                     prompt = generate_from_file(chunk)
                     response_text = generate_response(prompt)
                     combined_response += response_text + "\n"
-                query = " ".join(chunk).split('\n')
+                st.markdown(f'##### Response ideas about the file')
+                query = file_content[:100]
                 with st.expander('Sources'):
                     articles_show(query)
                 with st.expander('Video Sources'):
                     video_show(query)
-                st.markdown(f'##### Response')
                 st.write(combined_response)
 
 
