@@ -17,6 +17,7 @@ newspaper3k = "^0.2.8"
 youtube-search-python = "^1.6.6"
 lxml-html-clean = "^0.1.1"
 nodriver = "^0.34"
+together = "^1.2.2"
 
 
 [build-system]
