@@ -1,3 +1,8 @@
+### Docker Container
+- pull from docker and used free llama 3 
+```commandline
+    docker pull codewithdark/llama3-hackathon:new
+```
 # LLaMA Genius || AI Research Assistant
 
 LLaMA Genius is an AI-powered research assistant designed to help users interact with and extract insights from various sources, including uploaded files and web content. This application leverages advanced AI models to provide meaningful responses, generate ideas, and fetch relevant articles and videos.
