@@ -3,7 +3,7 @@ from together import Together
 
 
 def generate_response(prompt):
-    client = Together(os.environ['TOGETHER_API_KEY'])
+    client = Together(api_key=os.environ.get("TOGETHER_API_KEY"))
     try:
         response = client.chat.completions.create(
             model="meta-llama/Meta-Llama-3-70B-Instruct-Lite",
