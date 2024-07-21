@@ -1,14 +1,13 @@
-from g4f.client import Client
-import g4f
+import os
+from together import Together
 
 
 def generate_response(prompt):
-    client = Client()
+    client = Together(os.environ['TOGETHER_API_KEY'])
     try:
         response = client.chat.completions.create(
-            model=g4f.models.llama3_70b_instruct,
+            model="meta-llama/Meta-Llama-3-70B-Instruct-Lite",
             messages=[{'role': 'user', 'content': prompt}],
-            provider=g4f.Provider.MetaAI
         )
         return response.choices[0].message.content
     except Exception as e:
