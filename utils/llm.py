@@ -6,7 +6,7 @@ def generate_response(prompt):
     client = Together(os.environ['TOGETHER_API_KEY'])
     try:
         response = client.chat.completions.create(
-            model="meta-llama/Llama-3-8b-chat-hf",
+            model="meta-llama/Meta-Llama-3-70B-Instruct-Lite",
             messages=[{'role': 'user', 'content': prompt}],
         )
         return response.choices[0].message.content
