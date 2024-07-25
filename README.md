@@ -24,6 +24,12 @@ LLaMA Genius is an AI-powered research assistant designed to help users interact
 - **Sources Display**: Displays the fetched articles and videos.
 - **Navigation**: Links to navigate back to the home page and to the "Chat with File" feature.
 
+### 3. See The Chat with web History:
+
+- **Chat History**: Displays the chat history of the user.
+- **Sources Display**: Displays the fetched articles and videos.
+- **Navigation**: Links to navigate back to the home page and to the "Chat with File" feature.
+
 ## How to Use
 
 ### Chat with File
@@ -38,6 +44,18 @@ LLaMA Genius is an AI-powered research assistant designed to help users interact
 2. Input your query in the chat box.
 3. Get AI-generated responses along with related articles and YouTube videos.
 4. Explore sources by expanding the 'Sources' and 'Video Sources' sections.
+
+
+### See The Chat with web History
+1. Go to the "Chat with Web" page.
+2. Input your query in the chat box.
+3. Get AI-generated responses along with related articles and YouTube videos.
+4. Explore sources by expanding the 'Sources' and 'Video Sources' sections.
+5. Click on the 'See the Chat with web History' button to see the chat history of the user.
+6. Click on the 'Sources' button to see the fetched articles and YouTube videos.
+7. Click on the 'Back to home' button to navigate back to the home page.
+8. Click on the 'Back to Chat with Web' button to navigate back to the "Chat with web" page.
+
 
 ## Installation
 
@@ -71,6 +89,12 @@ To run this application locally, follow these steps:
 - `pages/chatWithFile.py`: Handles the "Chat with File" functionality, including file upload, text extraction, and AI interaction.
 - `pages/chatWithWeb.py`: Handles the "Chat with Web" functionality, including query input, AI response, and fetching related articles and YouTube videos.
 - `pages/style.css`: Custom CSS for styling the application.
+- `pages/history.py`: Handles the "See the Chat with web History" functionality, including fetching related articles and YouTube videos.
+- `utils/models.py`: Contains the DataBase logic for the application.
+- `utils/llm.py`: Contains the logic for the AI model to Generate Response.
+- `utils/helper.py`: Contains helper functions for the application.
+- `utils/common.py`: Contains common functions for the application.
+
 
 
 ## Collaborate
