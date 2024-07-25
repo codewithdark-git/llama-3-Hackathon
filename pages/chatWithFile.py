@@ -5,7 +5,7 @@ from app import local_css
 import streamlit as st
 
 local_css("pages/style.css")
-st.page_link('app.py', label='Home', icon="🏠")
+st.page_link('app.py', label='Back To Home', icon="🏠")
 
 # File upload
 uploaded_file = st.file_uploader("Upload a file (PDF, DOCX, TXT)", type=["pdf", "docx", "txt"])
