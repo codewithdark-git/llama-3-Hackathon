@@ -24,11 +24,9 @@ def main():
     with col2:
         if st.button('Chat With Web'):
             st.switch_page("pages/chatWithWeb.py")
-    # col1, col2, col3 = st.columns(3)
-    # with col1:
-    #     st.page_link("pages/chatWithFile.py", label='Chat with File', icon="📑")
-    # with col2:
-    #     st.page_link("pages/chatWithWeb.py", label='Chat with Web', icon="🌏")
+    with col3:
+        if st.button('See History'):
+            st.switch_page("pages/history.py")
 
     st.markdown("""
         <div class="section-title">Features Overview</div>
